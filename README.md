@@ -1,4 +1,6 @@
-# ニコニコ生放送 Webフロントエンド Kubernetes移行ハンドブック 2022
+# 니코니코 생방송 웹 프런트엔드의 쿠버네티스 마이그레이션 핸드북 2022
+
+> 이 문서는 일본어 기술 글 “[ニコニコ生放送 WebフロントエンドのKubernetes移行ハンドブック 2022](https://dwango.github.io/nicolive-kubernetes-migration-handbook-2022/)“을 번역한 글입니다. 번역을 신뢰하지 마세요. 개인적으로 살펴보고 활용하기 위해 번역한 것으로 애매하거나 이해가 확실하지 않은 부분을 가볍게 넘어간 구간이 많습니다.
 
 * [PDF](https://github.com/dwango/nicolive-kubernetes-migration-handbook-2022/raw/main/tex-workspace/article.pdf)
 

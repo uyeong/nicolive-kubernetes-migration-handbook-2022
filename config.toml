@@ -1,7 +1,7 @@
 baseURL = 'https://uyeong.github.io/nicolive-kubernetes-migration-handbook-2022'
 languageCode = 'kr-KR'
 theme = "hugo-book"
-title = 'ニコニコ生放送 Webフロントエンド Kubernetes移行ハンドブック 2022'
+title = '니코니코 생방송 웹 프런트엔드의 쿠버네티스 이전 핸드북 2022'
 
 googleAnalytics = ""
 
@@ -15,7 +15,7 @@ BookSearch = false
 BookServiceWorker = true
 BookTheme = 'auto'
 BookToC = true
-description = 'ニコニコ生放送 on Kubernetes'
+description = '니코니코 생방송 on Kubernetes'
 images = ['site-feature-image.png']
 
 [markup]

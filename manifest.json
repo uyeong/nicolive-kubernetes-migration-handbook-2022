@@ -1,6 +1,6 @@
 {
-  "name": "ニコニコ生放送 Webフロントエンド Kubernetes移行ハンドブック 2022",
-  "short_name": "ニコニコ生放送 Webフロントエンド Kubernetes移行ハンドブック 2022",
+  "name": "니코니코 생방송 웹 프런트엔드의 쿠버네티스 이전 핸드북 2022",
+  "short_name": "니코니코 생방송 웹 프런트엔드의 쿠버네티스 이전 핸드북 2022",
   "start_url": "/nicolive-kubernetes-migration-handbook-2022/",
   "scope": "/nicolive-kubernetes-migration-handbook-2022/",
   "display": "standalone",

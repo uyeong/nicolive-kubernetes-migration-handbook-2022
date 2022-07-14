@@ -1,22 +1,20 @@
 ---
-title: このHandbookについて
+title: 이 핸드북에 대해
 weight: 10
-description: このHandbookに関する情報を記載しています。
+description: 이 핸드북에 관한 정보를 작성하고 있다.
 ---
 
-# このHandbookについて
+# 이 핸드북에 대해
 
-## 配布形式
+## 배포 형식
 
-このHandbookは以下の形式で配布されています。
+이 핸드북은 다음과 같은 형식으로 배포돼 있다.
 
-* [Web Site](https://dwango.github.io/nicolive-kubernetes-migration-handbook-2022)
-* [PDF](https://github.com/dwango/nicolive-kubernetes-migration-handbook-2022/raw/main/tex-workspace/article.pdf)
+* [Web Site](https://uyeong.github.io/nicolive-kubernetes-migration-handbook-2022)
+* [PDF](https://github.com/uyeong/nicolive-kubernetes-migration-handbook-2022/raw/main/tex-workspace/article.pdf)
 
-PDFは最新版を保ちたいため、二次配布は実施せず本ページからダウンロードをしてください。
+PDF는 최신 버전을 유지 하고 싶기 때문에 2차 배포 없이 이 페이지를 통해 다운로드 하길 바란다.
 
-## 修正の提案について
+## 수정 제안
 
-Pull Request welcomeです！
-
-
+언제든지 PR(Pull Request) 해주길 바란다.

@@ -1,17 +1,16 @@
 ---
-title: TypeScriptでKubernetesのmanifestを記述する
+title: 타입스크립트로 쿠버네티스의 매니페스트를 작성한다
 weight: 32
-description: KubernetesのManifestをTypeScriptによって記述する方法について言及します。OpenAPI Schemaから自動生成された型定義を用いることで、TypeScriptやnpmライブラリのエコシステムによるサポートを活用します。
+description: 쿠버네티스의 매니페스트를 타입스크립트로 작성하는 방법을 다룬다. OpenAPI 스키마로 부터 자동 생성된 타입 정의를 사용하며 타입스크립트와 npm 라이브러리의 에코시스템을 활용한다.
 ---
 
-# TypeScriptでKubernetesのmanifestを記述する
+# 타입스크립트로 쿠버네티스의 매니페스트를 작성한다
 
-ここでは基本的な書き方について紹介します。
+이번 절에서는 기본적인 작성 방법을 소개한다.
 
-## 基本的な書き方
+## 기본적인 작성 방법
 
-NodeJSで動かすスクリプトとして次のようなに記述してきます。
-これを`ts-node`などで実行すると`deployment.yml`が出力され、`kubectl apply -f deployment.yml`とすることでKubernetes上にPodが起動します。
+아래 코드는 타입스크립트로 작성한 스크립트(노드에서 동작하는)의 예다. 이를 `ts-node` 등으로 실행하면 `deployment.yml`가 출력되며 `kubectl apply -f deployment.yml`하여 쿠버네티스 상에 팟을 기동 시킬 수 있다.
 
 ```ts
 import * as fs from "fs";
@@ -63,31 +62,31 @@ const text = yaml.dump(deployment, { noRefs: true, lineWidth: 144 });
 fs.writeFileSync("deployment.yml", text, "utf-8");
 ```
 
-## TypeScriptで記述する特徴
+## 타입스크립트로 작성할 때의 특징
 
-TypeScriptで記述したときの特徴を紹介します。
+타입스크립트로 작성할 때의 특정을 소개한다.
 
-### YAMLの記法に悩まれなくて済む
+### 자유로운 YAML 작성법
 
-まず一番わかりやすいのはYAMLの記法のブレがなくなります。
-YAMLは出力された結果であり、その結果を出力する処理が記法を規格化するためYAMLの記法に関する一切のレビューが不要になります。
+우선 가장 느끼기 쉬운 특징으로는 YAML의 작성 방법에 껄끄러움이 없다는 것이다.
+YAML은 단순한 출력 결과이며 출력하는 처리가 기법을 규격화하기 때문에 YAML의 작성 기법에 대한 리뷰가 필요 없다.
 
-1. spaceかtab indentか
-2. indentはspace 2か4か
-3. 複数行コメントは`|`か`>`のどちらで初めるか
-4. アルファベット順にソートするか
+1. 들여쓰기는 공백인지 탭인지 여부
+2. 들여쓰기는 공백 2칸인지 4칸인지 여부
+3. 여러 행 주석은 `|`, `>` 중 어느 것으로 할 것인지 여부
+4. 알파벳 순으로 정렬할 것인지 여부
 
-など。これらのことを一切考える必要がありません。
+등, 위와 같은 사항을 생각할 필요 없다.
 
-### コメントが書きやすい
+### 주석을 활용한 효율적인 문서화
 
-TypeScriptのコードコメントがそのまま利用することができます。
-エディタ上で変数名などをホバーしたときにコメントが見えるなどの可視化支援を受けることができます。
+타입스크립트의 코드 주석을 그대로 이용할 수 있다.
+따라서 변수명에 마우스 커서를 올렸을 때 주석이 함께 보이는 등의 에디터의 편의 기능을 지원 받을 수 있다.
 
-また、そのままドキュメントになるためマニフェストとドキュメントの乖離を防ぐことができ、ロストテクノロジーになることに対する予防措置が同時に実施できます。
+또, 주석은 그대로 문서의 의미 갖게 되므로 매니페스트와 문서의 괴리를 예방해 혼란스러움을 막을 수 있다.
 
 ```ts
-/** podTemplateに対するコメント */
+/** podTemplate 관련 주석 */
 const podTemplateSpec: Schemas.io$k8s$api$core$v1$PodTemplateSpec = {};
 
 const deployment: Schemas.io$k8s$api$apps$v1$Deployment = {
@@ -96,14 +95,14 @@ const deployment: Schemas.io$k8s$api$apps$v1$Deployment = {
   metadata: {
     name: "nginx-deployment",
     labels: {
-      /** このラベルを付ける理由.... */
+      /** 이 라벨을 붙인 이유 작성 */
       app: "nginx",
     },
   },
   spec: {
-    /** replicasが3で妥当な理由... */
+    /** 레플리카를 3으로 설정한 이유 */
     replicas: 3,
-    /** このSelectorを付ける理由.... */
+    /** 이 셀렉터를 붙인 이유 */
     selector: {
       matchLabels: {
         app: "nginx",
@@ -114,11 +113,11 @@ const deployment: Schemas.io$k8s$api$apps$v1$Deployment = {
 };
 ```
 
-### 「変数」が依存関係を表す様になる
+### 변수를 이용한 관계성 표현
 
-Kubernetesで基本的なServiceとDeploymentというセットを考えたとき、Service間通信するためにはServiceのSelectorをPodのLabelと一致させる必要があります。これをTypeScriptで表現する場合、SelectorとLabelの部分を変数化してしまえば確実に疎通ができるServiceとDeploymentのマニフェストを生成することができます。
+쿠버네티스에서 기본적인 서비스와 디플로이먼트라는 세트를 떠올려보자. 서비스간 통신을 위해서는 서비스의 셀렉터를 팟의 라벨과 일치시켜야 한다. 이 셀렉터와 라벨 부분을 타입스크립트의 변수로 지정하면 확실하게 관계를 드러내어 서비스와 디플로이먼트 매니페스트를 생성할 수 있다.
 
-他にも[推奨されるラベル](https://kubernetes.io/ja/docs/concepts/overview/working-with-objects/common-labels/)にある`app.kubernetes.io/version`なども漏れなく適切に指定されるようになります。
+이 외에도 [권장되는 라벨](https://kubernetes.io/ja/docs/concepts/overview/working-with-objects/common-labels/)인 `app.kubernetes.io/version` 등도 누락없이 적절하게 지정할 수 있다.
 
 ```ts
 const Namespace = "mynamespace";
@@ -168,7 +167,7 @@ export const generateDeployment = (applicationName: string, applicationVersion: 
           "app.kubernetes.io/name": applicationName,
         },
       },
-      /** 省略 */
+      /** 생략 */
     },
   };
 }
@@ -180,22 +179,24 @@ generateService(applicationName, applicationVersion);
 generateDeployment(applicationName, applicationVersion);
 ```
 
-### テンプレートの表現力が増す
+### 템플릿의 표현력 증가
 
-例えばNodeJSやGo Lang、Scalaなど様々な言語で記述されているマイクロサービスの基本的なDeploymentのテンプレートなども用意できるようになります。これは例えば`/a`と`/b`のエンドポイントが同じサーバーから提供されているが、水平スケールする単位やCPU/MEMなどの各種リソースを分離して管理したい場合にManifestを分割したい場合に大いに役立ちます。うまくManifestのGeneratorが設計されていれば数分のオーダーで分割ができ、即日デプロイすることができます。
+예를 들어 노드, 고, 스칼라 등 다양한 언어로 구현된 마이크로서비스를 위한 기본적인 디플로이먼트 템플릿 등을 준비할 수 있다.
+예를 들어 `/a`와 `/b`의 엔드포인트가 같은 서버에서 제공되고 있지만, 수평 확장(scale out) 단위나 CPU / MEM 등 각각의 자원을 분리하여 관리하고자 매니페스트를 분할 하고 싶을 때에 큰 도움이 된다.
+
 ```ts
 export const generateNodeJsDeployment = ():Schemas.io$k8s$api$apps$v1$Deployment => {};
 export const generateRubyOnRailsDeployment = ():Schemas.io$k8s$api$apps$v1$Deployment => {};
 export const generateScalaDeployment = ():Schemas.io$k8s$api$apps$v1$Deployment => {};
 ```
 
-### Generator内部で`Error`を`throw`することがテストになる
+### 테스트 역할을 대신하는 제너레이터
 
-ManifestをGenerateする際に立地なテストフレームワークは不要で、単純に`Exception`を発生させることがテストになります。
-例えば`Service`や`Job`などのリソースタイプは`metadata.name`に指定可能な文字列や文字数が決まっています（[参照](https://kubernetes.io/ja/docs/concepts/overview/working-with-objects/names/#dns-label-names)）。
+매니페스트를 생성 시에 활용할 테스트 프레임워크는 불필요하며, 단순하게 `Exception`을 발생시키는 것 만으로도 충분한 테스트가 된다.
+예를 들어 `metadata.name`에 지정할 수 있는 문자열 또는 문자수는 `Service`나 `Job` 등의 리소스 타입으로 정해져 있다（[참고](https://kubernetes.io/ja/docs/concepts/overview/working-with-objects/names/#dns-label-names)）。
 
-大きな変更が入った後に`kubectl apply`を実施して、この問題が発覚するとトラブルシュートの時間が掛かるため、ManifestをGenerateする際に具体的なエラーメッセージを出力して処理を中断してしまえば悩む時間が最小限にできます。
-手元でGenerateせずにPull Request投げた場合はCIでGenerateを再度走らせてテストを実施することができます。
+큰 변경을 시도하고나서 `kubectl apply` 실행 후 문제를 발견 한 경우라면 원인을 찾는데 꽤 수고가 필요하다. 하지만 매니페스트를 생성하는 시점에 구체적인 에러 메시지를 출력하고 처리를 중단한다면 문제의 원인을 즉시 알 수 있다.
+로컬 환경에서 생성해보지 않고 곧바로 PR 할 경우 CI 단계에서 생성을 시도하여 검증할 수 있다.
 
 ```ts
 export const validateMetadataName = (text: string, throwError?: true): string => {
